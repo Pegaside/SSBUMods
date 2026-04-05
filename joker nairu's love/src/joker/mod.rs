@@ -57,23 +57,25 @@ unsafe extern "C" fn effect_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
         if macros::is_excute(agent) {
             macros::EFFECT(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), -3.5, 13, -6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
         }
-        else {
-			if macros::is_excute(agent) {
-				macros::EFFECT(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), 3.5, 13, -6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
+	}
+    else {
+		if macros::is_excute(agent) {
+			macros::EFFECT(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), 3.5, 13, -6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
 			}
 		}
-	}
 	frame(agent.lua_state_agent, 8.0);
 	if get_value_float(agent.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
 		if macros::is_excute(agent) {
 			macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_l"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 			println!("This effect works!");
 		}
-		else {
-			macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_r"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
-			println!("This effect works!");
-		}
 	}
+	else {
+			if macros::is_excute(agent) {
+				macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_r"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+				println!("This effect works!");
+			}
+		}
 	frame(agent.lua_state_agent, 9.0);
 	if macros::is_excute(agent) {
 		macros::EFFECT(agent, Hash40::new("sys_atk_smoke"), Hash40::new("top"), -5, 0, 0, 0, 0, 0, 0.9, 0, 0, 0, 0, 0, 0, false);
@@ -83,10 +85,10 @@ unsafe extern "C" fn effect_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
 		if macros::is_excute(agent) {
 			macros::LANDING_EFFECT(agent, Hash40::new("sys_whirlwind_r"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
 		}
-		else {
-			if macros::is_excute(agent) {
-				macros::LANDING_EFFECT(agent, Hash40::new("sys_whirlwind_l"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
-			}
+	}
+	else {
+		if macros::is_excute(agent) {
+			macros::LANDING_EFFECT(agent, Hash40::new("sys_whirlwind_l"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, false);
 		}
 	}
 	for _ in 0..6 {
@@ -154,10 +156,10 @@ unsafe extern "C" fn effect_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
         if macros::is_excute(agent) {
             macros::EFFECT(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), -3.5, 13, -6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
         }
-        else {
-			if macros::is_excute(agent) {
-            macros::EFFECT(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), 3.5, 13, -6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
-			}
+    }
+	else {
+		if macros::is_excute(agent) {
+        macros::EFFECT(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), 3.5, 13, -6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
 		}
 	}
 	frame(agent.lua_state_agent, 8.0);
@@ -166,11 +168,13 @@ unsafe extern "C" fn effect_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
 			macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_l"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 			println!("This effect works!");
 		}
-		else {
-				macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_r"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
-				println!("This effect works!");
-		}
 	}
+	else {
+		if macros::is_excute(agent) {
+			macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_r"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+			println!("This effect works!");
+			}
+		}
 	frame(agent.lua_state_agent, 12.0);
 	for _ in 0..6 {
 		wait(agent.lua_state_agent, 2.0);
