@@ -403,7 +403,7 @@ unsafe extern "C" fn zelda_specialn_status_main_loop(fighter: &mut L2CFighterCom
         }
     }
 
-    return 0.into()
+    return 0.into();
 }
 
 // STATUS Exec zelda_specialn_status_exec
