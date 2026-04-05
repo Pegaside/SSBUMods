@@ -18,5 +18,9 @@ rmdir /s /q "%BASE_NAME%-%x%\.git"
 (
 echo @echo off
 echo cargo skyline build --release
+echo if errorlevel 1 goto end
+echo.
+echo copy /y "target\aarch64-skyline-switch\release\libsmashline_test.nro" "%%~dp0plugin.nro"
+echo :end
 echo pause
 ) > "%BASE_NAME%-%x%\Build Mod.bat"
