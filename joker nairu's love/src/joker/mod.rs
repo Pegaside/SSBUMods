@@ -65,8 +65,8 @@ unsafe extern "C" fn effect_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
 	}
 	frame(agent.lua_state_agent, 8.0);
 	if get_value_float(agent.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
-		if macros::is_excute(agent) {				// Zelda_Nayru_L is Jack_Gun_Hit
-			macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_hit"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+		if macros::is_excute(agent) {				// Zelda_Nayru_L is Jack_Gunspecial_Muzzle
+			macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gunspecial_muzzle"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 		}
 		else {
 			if macros::is_excute(agent) {			// Zelda_Nayru_R is Jack_Gun_Hit2
@@ -163,7 +163,7 @@ unsafe extern "C" fn effect_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
 	frame(agent.lua_state_agent, 8.0);
 	if get_value_float(agent.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
 		if macros::is_excute(agent) {
-			macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_hit"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+			macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gunspecial_muzzle"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 		}
 		else {
 			if macros::is_excute(agent) {
