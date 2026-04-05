@@ -46,10 +46,10 @@ unsafe extern "C" fn game_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
 // ACMD Effect Ground effect_specialn_zelda_acmd
 unsafe extern "C" fn effect_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
     frame(agent.lua_state_agent, 4.0);
-    if macros::is_excute(agent) {				// Zelda_Nayru_Flash is Jack_Gun_Muzzle
-        macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_muzzle"), Hash40::new("havel"), 0, 0, 0, -0.0, 0.0, 0.0, 1, true);
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_flash"), Hash40::new("havel"), 0, 0, 0, -0.0, 0.0, 0.0, 1, true);
         EffectModule::enable_sync_init_pos_last(agent.module_accessor);
-        macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_muzzle"), Hash40::new("haver"), 0, 0, 0, 0.0, 0.0, 0.0, 1, true);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_flash"), Hash40::new("haver"), 0, 0, 0, 0.0, 0.0, 0.0, 1, true);
         EffectModule::enable_sync_init_pos_last(agent.module_accessor);
     }
     frame(agent.lua_state_agent, 5.0);
@@ -65,12 +65,12 @@ unsafe extern "C" fn effect_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
 	}
 	frame(agent.lua_state_agent, 8.0);
 	if get_value_float(agent.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
-		if macros::is_excute(agent) {				// Zelda_Nayru_L is Jack_Gunspecial_Muzzle
-			macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gunspecial_muzzle"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+		if macros::is_excute(agent) {
+			macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_l"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 		}
 		else {
-			if macros::is_excute(agent) {			// Zelda_Nayru_R is Jack_Gun_Hit2
-				macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_hit2"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+			if macros::is_excute(agent) {
+				macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_r"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 			}
 		}
 	}
@@ -144,9 +144,9 @@ unsafe extern "C" fn game_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
 // ACMD Effect Air effect_specialairn_zelda_acmd
 unsafe extern "C" fn effect_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
-        macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_muzzle"), Hash40::new("havel"), 0, 0, 0, -0.0, 0.0, 0.0, 1, true);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_flash"), Hash40::new("havel"), 0, 0, 0, -0.0, 0.0, 0.0, 1, true);
         EffectModule::enable_sync_init_pos_last(agent.module_accessor);
-        macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_muzzle"), Hash40::new("haver"), 0, 0, 0, 0.0, 0.0, 0.0, 1, true);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_flash"), Hash40::new("haver"), 0, 0, 0, 0.0, 0.0, 0.0, 1, true);
         EffectModule::enable_sync_init_pos_last(agent.module_accessor);
     }
     frame(agent.lua_state_agent, 5.0);
@@ -163,11 +163,11 @@ unsafe extern "C" fn effect_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
 	frame(agent.lua_state_agent, 8.0);
 	if get_value_float(agent.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
 		if macros::is_excute(agent) {
-			macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gunspecial_muzzle"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+			macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_l"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 		}
 		else {
 			if macros::is_excute(agent) {
-				macros::EFFECT_FOLLOW(agent, Hash40::new("jack_gun_hit2"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
+				macros::EFFECT_FOLLOW(agent, Hash40::new("zelda_nayru_r"), Hash40::new("top"), 0, 8, 0, 0, 0, 0, 1, true);
 			}
 		}
 	}
