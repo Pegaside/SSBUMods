@@ -98,6 +98,17 @@ unsafe extern "C" fn effect_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
 	}
 }
 
+
+// ACMD Sound Ground sound_specialn_zelda_acmd
+unsafe extern "C" fn sound_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
+    frame(agent.lua_state_agent, 2.0);
+    if macros::is_excute(agent) {
+        macros::PLAY_SEQUENCE(agent, Hash40::new("seq_jack_rnd_special_h01"));
+        macros::PLAY_SE(agent, Hash40::new("se_zelda_special_n01"));
+    }
+}
+
+
 // ACMD Game Air game_specialairn_zelda_acmd
 unsafe extern "C" fn game_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
     frame(agent.lua_state_agent, 4.0);
@@ -168,6 +179,15 @@ unsafe extern "C" fn effect_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
 		}
 	wait(agent.lua_state_agent, 2.0);
 	}
+}
+
+// ACMD Sound Air sound_specialairn_zelda_acmd
+unsafe extern "C" fn sound_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
+    frame(agent.lua_state_agent, 2.0);
+    if macros::is_excute(agent) {
+        macros::PLAY_SEQUENCE(agent, Hash40::new("seq_jack_rnd_special_h01"));
+        macros::PLAY_SE(agent, Hash40::new("se_zelda_special_n01"));
+    }
 }
 
 
@@ -490,6 +510,8 @@ pub fn install() {
         .game_acmd("game_specialairn", game_specialairn_zelda_acmd, Default)
         .effect_acmd("effect_specialn", effect_specialn_zelda_acmd, Default)
         .effect_acmd("effect_specialairn", effect_specialairn_zelda_acmd, Default)
+		.sound_acmd("sound_specialn", sound_specialn_zelda_acmd, Default)
+		.sound_acmd("sound_specialairn", sound_specialairn_zelda_acmd, Default)
         .status(Init, *FIGHTER_STATUS_KIND_SPECIAL_N, zelda_specialn_status_init)
 		.status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_N, zelda_specialn_status_pre)
 		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_N, zelda_specialn_status_main)
