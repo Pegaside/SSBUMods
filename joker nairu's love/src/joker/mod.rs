@@ -174,7 +174,7 @@ unsafe extern "C" fn effect_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
 // All Status Scripts
 // STATUS Init zelda_specialn_status_init
 unsafe extern "C" fn zelda_specialn_status_init(fighter: &mut L2CFighterCommon) -> L2CValue {
-    0.into()
+    return 0.into();
 }
 
 // STATUS Pre zelda_specialn_status_pre
@@ -184,7 +184,7 @@ unsafe extern "C" fn zelda_specialn_status_pre(fighter: &mut L2CFighterCommon) -
     StatusModule::init_settings(
         fighter.module_accessor,
 
-        smash::app::SituationKind(*FIGHTER_LITTLEMAC_STATUS_KIND_SPECIAL_N_MAX_DASH_TURN),
+        smash::app::SituationKind(*SITUATION_KIND_NONE),
         *FIGHTER_KINETIC_TYPE_UNIQ,
         GROUND_CORRECT_KIND_KEEP.into(),
         smash::app::GroundCliffCheckKind(*GROUND_CLIFF_CHECK_KIND_NONE),
@@ -205,8 +205,8 @@ unsafe extern "C" fn zelda_specialn_status_pre(fighter: &mut L2CFighterCommon) -
         (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_N
             | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK
             | *FIGHTER_LOG_MASK_FLAG_ACTION_TRIGGER_ON) as u64,
-        *FIGHTER_STATUS_ATTR_START_TURN as u32,
-        *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_N as u32,
+        *FIGHTER_STATUS_ATTR_START_TURN,
+        *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_N,
         0,
     );
 
@@ -230,8 +230,7 @@ unsafe extern "C" fn zelda_specialn_status_main(fighter: &mut L2CFighterCommon) 
         zelda_specialn_substatus_main(fighter, false.into());
     }
 
-    fighter.global_table[0x15] =
-        L2CValue::Ptr(zelda_specialn_substatus_main as *const () as _);
+    fighter.global_table[0x15].assign(L2CValue::Ptr(zelda_specialn_substatus_main as *const () as _));
 
     fighter.sub_shift_status_main(L2CValue::Ptr(zelda_specialn_status_main_loop as *const () as _))
 }
