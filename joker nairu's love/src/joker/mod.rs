@@ -104,7 +104,7 @@ unsafe extern "C" fn sound_specialn_zelda_acmd(agent: &mut L2CAgentBase) {
     frame(agent.lua_state_agent, 2.0);
     if macros::is_excute(agent) {
         macros::PLAY_SEQUENCE(agent, Hash40::new("seq_jack_rnd_special_h01"));
-        macros::PLAY_SE(agent, Hash40::new("se_zelda_special_n01"));
+        macros::PLAY_SE(agent, Hash40::new("se_jack_special_n01")); // Replaced 86th audio file in nus3audio file with Zelda's
     }
 }
 
@@ -186,7 +186,7 @@ unsafe extern "C" fn sound_specialairn_zelda_acmd(agent: &mut L2CAgentBase) {
     frame(agent.lua_state_agent, 2.0);
     if macros::is_excute(agent) {
         macros::PLAY_SEQUENCE(agent, Hash40::new("seq_jack_rnd_special_h01"));
-        macros::PLAY_SE(agent, Hash40::new("se_zelda_special_n01"));
+        macros::PLAY_SE(agent, Hash40::new("se_jack_special_n01")); // Replaced 86th audio file in nus3audio file with Zelda's
     }
 }
 
