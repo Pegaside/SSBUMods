@@ -489,7 +489,7 @@ pub fn install() {
         .game_acmd("game_specialn", game_specialn_zelda_acmd, Default)
         .game_acmd("game_specialairn", game_specialairn_zelda_acmd, Default)
         .effect_acmd("effect_specialn", effect_specialn_zelda_acmd, Default)
-        .effect_acmd("game_effect_specialairn", effect_specialairn_zelda_acmd, Default)
+        .effect_acmd("effect_specialairn", effect_specialairn_zelda_acmd, Default)
         .status(Init, *FIGHTER_STATUS_KIND_SPECIAL_N, zelda_specialn_status_init)
 		.status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_N, zelda_specialn_status_pre)
 		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_N, zelda_specialn_status_main)
