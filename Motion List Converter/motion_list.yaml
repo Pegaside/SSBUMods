@@ -2779,7 +2779,7 @@ list:
       unk_2000: false
     blend_frames: 0
     animations:
-      - name: zelda_specialn.nuanmb
+      - name: d00specialn2.nuanmb
         unk: 0
     scripts:
       - expression_specialn
@@ -3229,7 +3229,7 @@ list:
       unk_2000: false
     blend_frames: 0
     animations:
-      - name: zelda_specialairn.nuanmb
+      - name: d00specialairn2.nuanmb
         unk: 0
     scripts:
       - expression_specialairn
