@@ -13,6 +13,7 @@ if exist "%BASE_NAME%-%x%" (
 )
 
 git clone "%REPO_URL%" "%BASE_NAME%-%x%"
+rmdir /s /q "%BASE_NAME%-%x%\.git"
 
 (
 echo @echo off
