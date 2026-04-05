@@ -7,7 +7,8 @@ use {
         hash40
     },
     smash_script::*,
-    smashline::{*, Priority::*}
+    smashline::{*, Priority::*},
+	std::convert::TryInto
 };
 
 // Game ACMD Scripts
@@ -205,8 +206,8 @@ unsafe extern "C" fn zelda_specialn_status_pre(fighter: &mut L2CFighterCommon) -
         (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_N
             | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK
             | *FIGHTER_LOG_MASK_FLAG_ACTION_TRIGGER_ON) as u64,
-        *FIGHTER_STATUS_ATTR_START_TURN,
-        *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_N,
+        (*FIGHTER_STATUS_ATTR_START_TURN).try_into().unwrap(),
+        (*FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_N).try_into().unwrap(),
         0,
     );
 
@@ -230,7 +231,7 @@ unsafe extern "C" fn zelda_specialn_status_main(fighter: &mut L2CFighterCommon) 
         zelda_specialn_substatus_main(fighter, false.into());
     }
 
-    fighter.global_table[0x15].assign(L2CValue::Ptr(zelda_specialn_substatus_main as *const () as _));
+    fighter.global_table[0x15].assign(&L2CValue::Ptr(zelda_specialn_substatus_main as *const () as _));
 
     fighter.sub_shift_status_main(L2CValue::Ptr(zelda_specialn_status_main_loop as *const () as _))
 }
