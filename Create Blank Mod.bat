@@ -17,5 +17,5 @@ git clone "%REPO_URL%" "%BASE_NAME%-%x%"
 (
 echo @echo off
 echo cargo skyline build --release
-pause
+echo pause
 ) > "%BASE_NAME%-%x%\Build Mod.bat"
