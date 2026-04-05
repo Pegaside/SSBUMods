@@ -1,0 +1,16 @@
+<FORGECONFIG>
+  <DOCKSETTINGS />
+  <PATHSETTINGS>
+    <ExternalFMATPath>
+    </ExternalFMATPath>
+    <MarioOdysseyGamePath>
+    </MarioOdysseyGamePath>
+  </PATHSETTINGS>
+  <MAT_REPLACE>
+    <SwapRenderInfos>True</SwapRenderInfos>
+    <SwapShaderOptions>True</SwapShaderOptions>
+    <SwapShaderParams>True</SwapShaderParams>
+    <SwapTextures>False</SwapTextures>
+    <SwapUserData>True</SwapUserData>
+  </MAT_REPLACE>
+</FORGECONFIG>
