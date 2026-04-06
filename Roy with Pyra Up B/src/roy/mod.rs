@@ -144,7 +144,7 @@ unsafe extern "C" fn eflame_specialhi_substatus_end(fighter: &mut L2CFighterComm
 // ----------
 
 pub fn install() {
-    Agent::new("mario")
+    Agent::new("roy")
         .game_acmd("game_ATTACK_NAME_HERE", example_acmd_script, Default) // Game acmd script
         .status(Main, *FIGHTER_MARIO_STATUS_KIND_SPECIAL_LW_CHARGE, example_status_script) // Status script
         .install();
