@@ -203,6 +203,15 @@ unsafe extern "C" fn eflame_specialhiend_status_main_loop(fighter: &mut L2CFight
 
 
 // STATUS End eflame_specialhiend_status_end
+unsafe extern "C" fn eflame_specialhiend_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+    if fighter.global_table[0xe].get_f32() == 1.0 {
+        eflame_specialhi_substatus_end(fighter);
+    }
+
+    0.into()
+}
+
+
 
 // ----------
 // SpecialHiJump
