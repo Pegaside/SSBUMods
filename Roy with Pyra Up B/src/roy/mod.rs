@@ -100,13 +100,25 @@ unsafe extern "C" fn eflame_specialhi_status_main_loop(fighter: &mut L2CFighterC
 // STATUS End eflame_specialhi_status_end
 unsafe extern "C" fn eflame_specialhi_status_end(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[0xb].get_i32() != *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_JUMP {
-        eflame_specialhi_substatus_end(fighter); // TODO: confirm exact identity/body of FUN_71000108a0
-        // TODO: confirm whether you want to rename global_table[0xb] to a known table constant in your setup
+        eflame_specialhi_substatus_end(fighter); // FUN_71000108a0
     }
 
     0.into()
 }
 
+// SUBSTATUS End eflame_specialhi_substatus_end
+unsafe extern "C" fn eflame_specialhi_substatus_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+    MotionAnimcmdModule::call_script_single(
+        fighter.module_accessor,
+        *FIGHTER_ANIMCMD_EFFECT,
+        Hash40::new_raw(0x19e219cd48),
+        -1
+    );
+
+    MotionAnimcmdModule::enable_skip_delay_update(fighter.module_accessor);
+
+    0.into()
+}
 
 
 // ----------
