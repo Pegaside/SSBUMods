@@ -507,6 +507,51 @@ unsafe extern "C" fn eflame_specialhiloop_status_end(fighter: &mut L2CFighterCom
 // Fire Pillar SpecialHi
 // ----------
 
+// STATUS Pre eflamefirepillar_specialhi_status_pre
+unsafe extern "C" fn eflamefirepillar_specialhi_status_pre(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    StatusModule::init_settings(
+        weapon.module_accessor,
+        smash::app::SituationKind(*SITUATION_KIND_AIR),
+        *WEAPON_KINETIC_TYPE_NORMAL,
+        GROUND_CORRECT_KIND_NONE.into(),
+        smash::app::GroundCliffCheckKind(0),
+        false,
+        0,
+        0,
+        0,
+        0,
+    );
+
+    GroundModule::set_test_coll_stop(weapon.module_accessor, false);
+
+    0.into()
+}
+
+// STATUS Main eflamefirepillar_specialhi_status_main
+unsafe extern "C" fn eflamefirepillar_specialhi_status_main(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    MotionModule::change_motion(
+        weapon.module_accessor,
+        Hash40::new("special_hi"),
+        0.0,
+        1.0,
+        false,
+        0.0,
+        false,
+        false,
+    );
+
+    weapon.fastshift(L2CValue::Ptr(eflamefirepillar_specialhi_status_main_loop as *const () as _))
+}
+
+// STATUS MainLoop eflamefirepillar_specialhi_status_main_loop
+unsafe extern "C" fn eflamefirepillar_specialhi_status_main_loop(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    0.into()
+}
+
+// STATUS End eflamefirepillar_specialhi_status_end
+unsafe extern "C" fn eflamefirepillar_specialhi_status_end(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    0.into()
+}
 
 
 pub fn install() {
