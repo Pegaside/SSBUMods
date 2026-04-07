@@ -13,9 +13,127 @@ use {
 const FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_JUMP_SPEED_Y: i32 = 0xdd9c; // DD9C is unlabeled in dict.txt, test by changing mod.rs of other mod and using raw hash like 0xdd9c instead of name and see if it still works.
 
 // Game ACMD Scripts
-// ACMD Game Ground
-unsafe extern "C" fn example_acmd_script(agent: &mut L2CAgentBase) {
-    
+// ACMD Game Ground Base game_specialhi_roy_acmd
+unsafe extern "C" fn game_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        WorkModule::set_int64(agent.module_accessor, hash40("special_hi") as i64, *FIGHTER_EFLAME_INSTANCE_WORK_ID_INT_ESWORD_INHERIT_OPEN_MOTION_KIND);
+    }
+    frame(agent.lua_state_agent, 1.0);
+    if macros::is_excute(agent) {
+        ArticleModule::generate_article(agent.module_accessor, *FIGHTER_EFLAME_GENERATE_ARTICLE_FIREPILLAR, false, -1);
+        macros::ATTACK(agent, 0, 0, Hash40::new("top"), 2.0, 55, 100, 0, 60, 4.5, 0.0, 4.0, 2.0, Some(0.0), Some(4.0), Some(8.0), 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_POS, false, 0, -1.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_G, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_SWORD);
+        macros::ATTACK(agent, 1, 0, Hash40::new("top"), 5.0, 70, 100, 0, 65, 5.0, 0.0, -4.0, 6.0, Some(0.0), Some(-8.0), Some(6.0), 0.5, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, -1.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
+    }
+    frame(agent.lua_state_agent, 2.0);
+    if macros::is_excute(agent) {
+        AttackModule::clear_all(agent.module_accessor);
+    }
+    frame(agent.lua_state_agent, 60.0);
+    if macros::IS_EXIST_ARTICLE(agent, *FIGHTER_EFLAME_GENERATE_ARTICLE_ESWORD) {
+        if macros::is_excute(agent) {
+            ArticleModule::add_motion_partial(agent.module_accessor, *FIGHTER_EFLAME_GENERATE_ARTICLE_ESWORD, *WEAPON_EFLAME_ESWORD_MOTION_PART_SET_KIND_OPEM_CLOSE, Hash40::new("to_close"), 5.0, 5.0, false, false, 0.0, false, true, false);
+        }
+    }
+    if MotionModule::is_changing(agent.module_accessor) {
+        if macros::is_excute(agent) {
+            WorkModule::on_flag(agent.module_accessor, *FIGHTER_EFLAME_INSTANCE_WORK_ID_FLAG_ADD_PARTIAL_MTION_SWORD_WHEN_CHANGEING);
+        }
+    }
+}
+
+// ACMD Effect Ground Base effect_specialhi_roy_acmd
+unsafe extern "C" fn effect_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::LANDING_EFFECT(agent, Hash40::new("sys_down_smoke"), Hash40::new("top"), 15, 0, 0, 0, 0, 0, 1.3, 0, 0, 0, 0, 0, 0, false);
+        macros::LANDING_EFFECT(agent, Hash40::new("null"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 0, 0, false);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_open"), Hash40::new("sword1"), 0, 0, 0, 0, 90, 0, 1, true);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_beam_m"), Hash40::new("sword1"), 0, 0, 0, 0, 90, 0, 1, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_firetrail"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_speed_line"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_firetrail"), true, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_fire"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_fire2"), false, true);
+        macros::AFTER_IMAGE_OFF(agent, 3);
+        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_sword_stab"), Hash40::new("top"), 0, 0, 5.2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
+    }
+    frame(agent.lua_state_agent, 39.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_sword_smoke"), Hash40::new("top"), 0, 0, 5.2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
+    }
+    frame(agent.lua_state_agent, 40.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_promrevolt_sword_fire"), Hash40::new("sword1"), 2, 0, 0, 0, 0, 0, 0.7, true);
+    }
+    frame(agent.lua_state_agent, 60.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_beam_m"), true, true);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_close"), Hash40::new("sword1"), 0, 0, 0, 0, 90, 0, 1, true);
+    }
+    frame(agent.lua_state_agent, 69.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_fire"), false, true);
+    }
+}
+
+
+// ACMD Effect Ground Interrupt effect_specialhiinterrupt_roy_acmd
+unsafe extern "C" fn effect_specialhiinterrupt(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_firetrail"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_beam_m"), true, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_speed_line"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_fire"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_fire2"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_fire2"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_fire"), false, true);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_firetrail"), true, true);
+        macros::AFTER_IMAGE_OFF(agent, 3);
+    }
+}
+
+ 
+// ACMD Game Ground Start game_specialhistart_roy_acmd
+unsafe extern "C" fn game_specialhistart_roy_acmd(agent: &mut L2CAgentBase) {
+    frame(agent.lua_state_agent, 8.0);
+    if macros::IS_EXIST_ARTICLE(agent, *FIGHTER_EFLAME_GENERATE_ARTICLE_ESWORD) {
+        if macros::is_excute(agent) {
+            ArticleModule::add_motion_partial(agent.module_accessor, *FIGHTER_EFLAME_GENERATE_ARTICLE_ESWORD, *WEAPON_EFLAME_ESWORD_MOTION_PART_SET_KIND_OPEM_CLOSE, Hash40::new("to_open"), 5.0, 5.0, false, false, 0.0, false, true, false);
+        }
+    }
+    if MotionModule::is_changing(agent.module_accessor) {
+        if macros::is_excute(agent) {
+            WorkModule::on_flag(agent.module_accessor, *FIGHTER_EFLAME_INSTANCE_WORK_ID_FLAG_ADD_PARTIAL_MTION_SWORD_WHEN_CHANGEING);
+        }
+    }
+    if macros::is_excute(agent) {
+        WorkModule::set_int64(agent.module_accessor, hash40("special_air_hi_jump") as i64, *FIGHTER_EFLAME_INSTANCE_WORK_ID_INT_ESWORD_INHERIT_OPEN_MOTION_KIND);
+    }
+}
+
+// ACMD Effect Ground Start effect_specialhistart_roy_acmd
+unsafe extern "C" fn effect_specialhistart_roy_acmd(agent: &mut L2CAgentBase) {
+    frame(agent.lua_state_agent, 6.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_flash"), Hash40::new("sword1"), 12, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
+    }
+    frame(agent.lua_state_agent, 8.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_open"), Hash40::new("sword1"), 0, 0, 0, 0, 90, 0, 1, true);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_beam_m"), Hash40::new("sword1"), 0, 0, 0, 0, 90, 0, 1, false);
+        macros::AFTER_IMAGE4_ON_arg29(agent, Hash40::new("tex_eflame_sword1"), Hash40::new("tex_eflame_sword2"), 6, Hash40::new("sword1"), 0.3, 0, 0, Hash40::new("sword1"), 18.5, 0, -0.25, false, Hash40::new("null"), Hash40::new("sword1"), 0, 0, 0, 0, 0, 0, 1, 0, *EFFECT_AXIS_X, 0, *TRAIL_BLEND_ALPHA, 101, *TRAIL_CULL_NONE, 1.4, 0.1);
+    }
+    frame(agent.lua_state_agent, 9.0);
+    if macros::is_excute(agent) {
+        macros::LANDING_EFFECT(agent, Hash40::new("sys_atk_smoke"), Hash40::new("top"), 0, 0, 2, 0, 0, 0, 0.7, 0, 0, 0, 0, 0, 0, false);
+        macros::EFFECT_FOLLOW_NO_STOP(agent, Hash40::new("eflame_sword_fire2"), Hash40::new("sword1"), 0, 0, 0, 0, 0, 0, 1, false);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_fire"), Hash40::new("sword1"), 0, 0, 0, 0, 0, 0, 1, false);
+    }
+    frame(agent.lua_state_agent, 11.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_open"), true, true);
+        macros::EFFECT_FOLLOW_NO_STOP(agent, Hash40::new("eflame_sword_firetrail_end"), Hash40::new("sword1"), 0, 0, 0, 0, 0, 0, 1, false);
+        macros::LAST_EFFECT_SET_RATE(agent, 2);
+    }
 }
 
 
