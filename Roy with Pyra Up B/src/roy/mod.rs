@@ -398,11 +398,116 @@ unsafe extern "C" fn eflame_specialhijump_status_end(fighter: &mut L2CFighterCom
 // SpecialHiLoop
 // ----------
 
+// STATUS Pre eflame_specialhiloop_status_pre
+unsafe extern "C" fn eflame_specialhiloop_status_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+    StatusModule::init_settings(
+        fighter.module_accessor,
+        smash::app::SituationKind(*SITUATION_KIND_AIR),
+        *FIGHTER_KINETIC_TYPE_UNIQ,
+        GROUND_CORRECT_KIND_AIR.into(),
+        smash::app::GroundCliffCheckKind(*GROUND_CLIFF_CHECK_KIND_ON_DROP),
+        true,
+        *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLAG,
+        *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_INT,
+        *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLOAT,
+        *FS_SUCCEEDS_KEEP_ATTACK,
+    );
+
+    FighterStatusModuleImpl::set_fighter_status_data(
+        fighter.module_accessor,
+        false,
+        *FIGHTER_TREADED_KIND_NO_REAC,
+        false,
+        false,
+        false,
+        (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_HI
+            | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK) as u64,
+        0,
+        FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_HI.into(),
+        0,
+    );
+
+    0.into()
+}
+
+// STATUS Main eflame_specialhiloop_status_main
+unsafe extern "C" fn eflame_specialhiloop_status_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+    MotionModule::change_motion(
+        fighter.module_accessor,
+        Hash40::new("special_air_hi_fall"),
+        0.0,
+        1.0,
+        false,
+        0.0,
+        false,
+        false,
+    );
+
+    let mut speed_y = WorkModule::get_float(
+        fighter.module_accessor,
+        FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_JUMP_SPEED_Y,
+    );
+
+    if speed_y == 0.0 {
+        fighter.clear_lua_stack();
+        lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_MOTION);
+        speed_y = sv_kinetic_energy::get_speed_y(fighter.lua_state_agent);
+    }
+
+    KineticModule::change_kinetic(
+        fighter.module_accessor,
+        *FIGHTER_KINETIC_TYPE_MOTION_FALL,
+    );
+
+    fighter.clear_lua_stack();
+    lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_GRAVITY, speed_y);
+    sv_kinetic_energy::set_speed(fighter.lua_state_agent);
+
+    fighter.clear_lua_stack();
+    lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_GRAVITY, speed_y.abs());
+    sv_kinetic_energy::set_stable_speed(fighter.lua_state_agent);
+
+    fighter.clear_lua_stack();
+    lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_GRAVITY, speed_y.abs());
+    sv_kinetic_energy::set_limit_speed(fighter.lua_state_agent);
+
+    KineticModule::unable_energy(
+        fighter.module_accessor,
+        *FIGHTER_KINETIC_ENERGY_ID_CONTROL,
+    );
+
+    fighter.sub_shift_status_main(L2CValue::Ptr(eflame_specialhiloop_status_main_loop as *const () as _,))
+}
+
+// STATUS MainLoop eflame_specialhiloop_status_main_loop
+unsafe extern "C" fn eflame_specialhiloop_status_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+    if !fighter.sub_transition_group_check_air_cliff().get_bool() {
+        if fighter.global_table[0x16].get_i32() == *SITUATION_KIND_GROUND {
+            fighter.change_status(
+                FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_END.into(),
+                false.into(),
+            );
+        }
+    }
+
+    0.into()
+}
+
+// STATUS End eflame_specialhiloop_status_end
+unsafe extern "C" fn eflame_specialhiloop_status_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+    if fighter.global_table[0xb].get_i32() != *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_END {
+        eflame_specialhi_substatus_end(fighter);
+    }
+
+    0.into()
+}
 
 
 // ----------
 // Fire Pillar SpecialHi
 // ----------
+
+
 
 pub fn install() {
     Agent::new("roy")
