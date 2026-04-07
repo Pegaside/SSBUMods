@@ -10,6 +10,8 @@ use {
     smashline::{*, Priority::*}
 };
 
+const FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_JUMP_SPEED_Y: i32 = 0xdd9c; // DD9C is unlabeled in dict.txt, test by changing mod.rs of other mod and using raw hash like 0xdd9c instead of name and see if it still works.
+
 // Game ACMD Scripts
 // ACMD Game Ground
 unsafe extern "C" fn example_acmd_script(agent: &mut L2CAgentBase) {
@@ -267,7 +269,7 @@ unsafe extern "C" fn eflame_specialhijump_status_main(fighter: &mut L2CFighterCo
         *FIGHTER_KINETIC_TYPE_MOTION_AIR,
     );
 
-    let jump_speed_mul = 0.83
+    let jump_speed_mul = 0.83;
 
     fighter.clear_lua_stack();
     lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_MOTION, jump_speed_mul);
@@ -298,7 +300,7 @@ unsafe extern "C" fn eflame_specialhijump_status_main_loop(fighter: &mut L2CFigh
         WorkModule::set_float(
             fighter.module_accessor,
             speed_y, // TODO: confirm the exact expression here; the decompile around `aLStack112 _ aLStack80` was garbled
-            FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_UNKNOWN, // TODO: replace with the real label for DAT_71004ebfcc
+            FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_JUMP_SPEED_Y, // DAT_71004ebfcc
         );
     }
 
@@ -348,21 +350,13 @@ unsafe extern "C" fn eflame_specialhijump_status_main_loop(fighter: &mut L2CFigh
         );
         sv_kinetic_energy::reset_energy(fighter.lua_state_agent);
 
-        let jump_speed_x_mul = WorkModule::get_param_float(
-            fighter.module_accessor,
-            Hash40::new("param_special_hi"),
-            Hash40::new("jump_speed_x_mul"),
-        ); // TODO: replace with the actual vl.prc value if you look it up
+        let jump_speed_x_mul = 0.8;
 
         fighter.clear_lua_stack();
         lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_CONTROL, jump_speed_x_mul);
         sv_kinetic_energy::mul_x_speed_max(fighter.lua_state_agent);
 
-        let jump_speed_x_max_mul = WorkModule::get_param_float(
-            fighter.module_accessor,
-            Hash40::new("param_special_hi"),
-            Hash40::new("jump_speed_x_max_mul"),
-        ); // TODO: replace with the actual vl.prc value if you look it up
+        let jump_speed_x_max_mul = 1.2;
 
         fighter.clear_lua_stack();
         lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_CONTROL, jump_speed_x_max_mul);
@@ -382,6 +376,17 @@ unsafe extern "C" fn eflame_specialhijump_status_main_loop(fighter: &mut L2CFigh
             fighter.module_accessor,
             *FIGHTER_KINETIC_ENERGY_ID_CONTROL,
         );
+    }
+
+    0.into()
+}
+
+// STATUS End eflame_specialhijump_status_end
+unsafe extern "C" fn eflame_specialhijump_status_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+    if fighter.global_table[0xb].get_i32() != *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP
+        && fighter.global_table[0xb].get_i32() != *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_END
+    {
+        eflame_specialhi_substatus_end(fighter);
     }
 
     0.into()
