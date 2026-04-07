@@ -217,6 +217,176 @@ unsafe extern "C" fn eflame_specialhiend_end(fighter: &mut L2CFighterCommon) -> 
 // SpecialHiJump
 // ----------
 
+// STATUS Pre eflame_specialhijump_status_pre
+unsafe extern "C" fn eflame_specialhijump_status_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+    StatusModule::init_settings(
+        fighter.module_accessor,
+        smash::app::SituationKind(*SITUATION_KIND_AIR),
+        *FIGHTER_KINETIC_TYPE_UNIQ,
+        GROUND_CORRECT_KIND_AIR.into(),
+        smash::app::GroundCliffCheckKind(*GROUND_CLIFF_CHECK_KIND_ON_DROP),
+        true,
+        *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLAG,
+        *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_INT,
+        *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLOAT,
+        0,
+    );
+
+    FighterStatusModuleImpl::set_fighter_status_data(
+        fighter.module_accessor,
+        false,
+        *FIGHTER_TREADED_KIND_NO_REAC,
+        false,
+        false,
+        false,
+        (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_HI
+            | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK) as u64,
+        0,
+        FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_HI.into(),
+        0,
+    );
+
+    0.into()
+}
+
+// STATUS Main eflame_specialhijump_status_main
+unsafe extern "C" fn eflame_specialhijump_status_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+    MotionModule::change_motion(
+        fighter.module_accessor,
+        Hash40::new("special_air_hi_jump"),
+        0.0,
+        1.0,
+        false,
+        0.0,
+        false,
+        false,
+    );
+
+    KineticModule::change_kinetic(
+        fighter.module_accessor,
+        *FIGHTER_KINETIC_TYPE_MOTION_AIR,
+    );
+
+    let jump_speed_mul = 0.83
+
+    fighter.clear_lua_stack();
+    lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_MOTION, jump_speed_mul);
+    sv_kinetic_energy::set_speed_mul(fighter.lua_state_agent);
+
+    fighter.sub_shift_status_main(L2CValue::Ptr(eflame_specialhijump_status_main_loop as *const () as _))
+}
+
+// STATUS MainLoop eflame_specialhijump_status_main_loop
+unsafe extern "C" fn eflame_specialhijump_status_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+    if fighter.sub_transition_group_check_air_cliff().get_bool() {
+        return 0.into();
+    }
+
+    if MotionModule::is_end(fighter.module_accessor) {
+        fighter.change_status(
+            FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP.into(),
+            false.into(),
+        );
+        return 0.into();
+    }
+
+    if MotionModule::frame(fighter.module_accessor).ceil() == MotionModule::end_frame(fighter.module_accessor) {
+        fighter.clear_lua_stack();
+        lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_MOTION);
+        let speed_y = sv_kinetic_energy::get_speed_y(fighter.lua_state_agent);
+
+        WorkModule::set_float(
+            fighter.module_accessor,
+            speed_y, // TODO: confirm the exact expression here; the decompile around `aLStack112 _ aLStack80` was garbled
+            FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_UNKNOWN, // TODO: replace with the real label for DAT_71004ebfcc
+        );
+    }
+
+    if fighter.global_table[0x16].get_i32() == *SITUATION_KIND_GROUND {
+        if WorkModule::is_flag(
+            fighter.module_accessor,
+            *FIGHTER_EFLAME_STATUS_SPECIAL_HI_FLAG_ENABLE_GROUND,
+        ) {
+            WorkModule::off_flag(
+                fighter.module_accessor,
+                *FIGHTER_EFLAME_STATUS_SPECIAL_HI_FLAG_ENABLE_GROUND,
+            );
+
+            fighter.change_status(
+                FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_END.into(),
+                false.into(),
+            );
+
+            return 0.into();
+        }
+    }
+
+    if WorkModule::is_flag(
+        fighter.module_accessor,
+        *FIGHTER_EFLAME_STATUS_SPECIAL_HI_FLAG_START_CONTROL,
+    ) {
+        WorkModule::off_flag(
+            fighter.module_accessor,
+            *FIGHTER_EFLAME_STATUS_SPECIAL_HI_FLAG_START_CONTROL,
+        );
+
+        KineticModule::enable_energy(
+            fighter.module_accessor,
+            *FIGHTER_KINETIC_ENERGY_ID_CONTROL,
+        );
+
+        fighter.clear_lua_stack();
+        lua_args!(
+            fighter,
+            *FIGHTER_KINETIC_ENERGY_ID_CONTROL,
+            *ENERGY_CONTROLLER_RESET_TYPE_FALL_ADJUST,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        );
+        sv_kinetic_energy::reset_energy(fighter.lua_state_agent);
+
+        let jump_speed_x_mul = WorkModule::get_param_float(
+            fighter.module_accessor,
+            Hash40::new("param_special_hi"),
+            Hash40::new("jump_speed_x_mul"),
+        ); // TODO: replace with the actual vl.prc value if you look it up
+
+        fighter.clear_lua_stack();
+        lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_CONTROL, jump_speed_x_mul);
+        sv_kinetic_energy::mul_x_speed_max(fighter.lua_state_agent);
+
+        let jump_speed_x_max_mul = WorkModule::get_param_float(
+            fighter.module_accessor,
+            Hash40::new("param_special_hi"),
+            Hash40::new("jump_speed_x_max_mul"),
+        ); // TODO: replace with the actual vl.prc value if you look it up
+
+        fighter.clear_lua_stack();
+        lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_CONTROL, jump_speed_x_max_mul);
+        sv_kinetic_energy::mul_x_accel_mul(fighter.lua_state_agent);
+    }
+
+    if WorkModule::is_flag(
+        fighter.module_accessor,
+        *FIGHTER_EFLAME_STATUS_SPECIAL_HI_FLAG_END_CONTROL,
+    ) {
+        WorkModule::off_flag(
+            fighter.module_accessor,
+            *FIGHTER_EFLAME_STATUS_SPECIAL_HI_FLAG_END_CONTROL,
+        );
+
+        KineticModule::unable_energy(
+            fighter.module_accessor,
+            *FIGHTER_KINETIC_ENERGY_ID_CONTROL,
+        );
+    }
+
+    0.into()
+}
+
 
 
 // ----------
