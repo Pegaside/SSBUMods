@@ -77,7 +77,7 @@ unsafe extern "C" fn effect_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
 
 
 // ACMD Effect Ground Interrupt effect_specialhiinterrupt_roy_acmd
-unsafe extern "C" fn effect_specialhiinterrupt(agent: &mut L2CAgentBase) {
+unsafe extern "C" fn effect_specialhiinterrupt_roy_acmd(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_firetrail"), false, true);
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_beam_m"), true, true);
@@ -356,8 +356,8 @@ unsafe extern "C" fn eflame_specialhi_status_pre(fighter: &mut L2CFighterCommon)
         (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_HI
             | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK
             | *FIGHTER_LOG_MASK_FLAG_ACTION_TRIGGER_ON) as u64,
-        *FIGHTER_STATUS_ATTR_START_TURN,
-        *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_HI,
+        *FIGHTER_STATUS_ATTR_START_TURN as u32,
+        *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_HI as u32,
         0
     );
 
@@ -458,7 +458,7 @@ unsafe extern "C" fn eflame_specialhiend_status_pre(fighter: &mut L2CFighterComm
         (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_HI
             | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK) as u64,
         0,
-        *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_HI,
+        *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_HI as u32,
         0,
     );
 
@@ -511,7 +511,7 @@ unsafe extern "C" fn eflame_specialhiend_status_main_loop(fighter: &mut L2CFight
 
 
 // STATUS End eflame_specialhiend_status_end
-unsafe extern "C" fn eflame_specialhiend_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn eflame_specialhiend_status_end(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[0xe].get_f32() == 1.0 {
         eflame_specialhi_substatus_end(fighter);
     }
