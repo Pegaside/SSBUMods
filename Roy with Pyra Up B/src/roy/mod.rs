@@ -810,8 +810,8 @@ unsafe extern "C" fn eflame_specialhiloop_status_end(fighter: &mut L2CFighterCom
     0.into()
 }
 
-// ACMD FirePillar
-unsafe extern "C" fn game_specialhi_firepillar_acmd(agent: &mut L2CAgentBase) {
+// ACMD PRevolt
+unsafe extern "C" fn game_specialhi_prevolt_acmd(agent: &mut L2CAgentBase) {
     frame(agent.lua_state_agent, 1.0);
     if macros::is_excute(agent) {
         macros::ATTACK(agent, 0, 0, Hash40::new("top"), 9.0, 60, 100, 0, 96, 11.0, 0.0, 8.0, 2.0, Some(0.0), Some(8.0), Some(-2.0), 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
@@ -908,10 +908,9 @@ pub fn install() {
 		.status(Pre, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_pre)
 		.status(Main, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_main)
 		.status(End, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_end)
-		.game_acmd("game_specialhi", game_specialhi_firepillar_acmd, Default)
 		.install();
-	Agent::new("eflame_firepillar")
-
+	Agent::new("roy_prevolt")
+		.game_acmd("game_specialhi", game_specialhi_prevolt_acmd, Default)
 		.status(Pre, *WEAPON_EFLAME_FIREPILLAR_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_pre)
 		.status(Main, *WEAPON_EFLAME_FIREPILLAR_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_main)
 		.status(End, *WEAPON_EFLAME_FIREPILLAR_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_end)
