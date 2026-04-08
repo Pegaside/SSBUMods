@@ -814,6 +814,9 @@ unsafe extern "C" fn eflame_specialhiloop_status_end(fighter: &mut L2CFighterCom
 
 // ACMD Sounds
 unsafe extern "C" fn sound_specialhi_firepillar_roy_acmd(agent: &mut L2CAgentBase) {
+	if macros::is_excute(agent) {
+		macros::PLAY_SE(agent, Hash40::new("se_roy_hit_s"));
+	}
     frame(agent.lua_state_agent, 3.0);
     if macros::is_excute(agent) {
         macros::PLAY_SE(agent, Hash40::new("se_roy_special_h03")); // se_eflame_special_h04
@@ -821,27 +824,22 @@ unsafe extern "C" fn sound_specialhi_firepillar_roy_acmd(agent: &mut L2CAgentBas
     }
 }
 
-unsafe extern "C" fn sound_specialhi(agent: &mut L2CAgentBase) {
-    if macros::is_excute(agent) {
-        macros::PLAY_SE(agent, Hash40::new("se_roy_swing_ll"));
-    }
-}
 
-unsafe extern "C" fn sound_specialhistart(agent: &mut L2CAgentBase) {
+unsafe extern "C" fn sound_specialhistart_roy_acmd(agent: &mut L2CAgentBase) {
     frame(agent.lua_state_agent, 8.0);
     if macros::is_excute(agent) {
         macros::PLAY_SE(agent, Hash40::new("se_roy_special_h01")); // se_eflame_special_h01
     }
 }
 
-unsafe extern "C" fn sound_specialairhistart(agent: &mut L2CAgentBase) {
+unsafe extern "C" fn sound_specialairhistart_roy_acmd(agent: &mut L2CAgentBase) {
     frame(agent.lua_state_agent, 8.0);
     if macros::is_excute(agent) {
         macros::PLAY_SE(agent, Hash40::new("se_roy_special_h01")); // se_eflame_special_h01
     }
 }
 
-unsafe extern "C" fn sound_specialairhijump(agent: &mut L2CAgentBase) {
+unsafe extern "C" fn sound_specialairhijump_roy_acmd(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
         macros::PLAY_SE(agent, Hash40::new("vc_roy_appeal02"));
     }
@@ -864,6 +862,10 @@ pub fn install() {
 		.effect_acmd("effect_specialairhistart", effect_specialairhistart_roy_acmd, Default)
 		.effect_acmd("effect_specialairhijump", effect_specialairhijump_roy_acmd, Default)
 		.effect_acmd("effect_specialairhifall", effect_specialairhifall_roy_acmd, Default)
+		.sound_acmd("sound_specialhi", sound_specialhi_firepillar_roy_acmd, Default)
+		.sound_acmd("sound_specialhistart", sound_specialhistart_roy_acmd, Default)
+		.sound_acmd("sound_specialairhistart", sound_specialairhistart_roy_acmd, Default)
+		.sound_acmd("sound_specialairhijump", sound_specialairhijump_roy_acmd, Default)
         .status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhi_status_pre)
 		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhi_status_main)
 		.status(End, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhi_status_end)
