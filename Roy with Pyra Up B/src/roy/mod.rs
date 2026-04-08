@@ -52,8 +52,6 @@ unsafe extern "C" fn effect_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
         macros::LANDING_EFFECT(agent, Hash40::new("sys_down_smoke"), Hash40::new("top"), 15, 0, 0, 0, 0, 0, 1.3, 0, 0, 0, 0, 0, 0, false);
         macros::LANDING_EFFECT(agent, Hash40::new("null"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 0, 0, false);
-        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_open"), Hash40::new("sword1"), 0, 0, 0, 0, 90, 0, 1, true);
-        macros::EFFECT_FOLLOW(agent, Hash40::new("eflame_sword_beam_m"), Hash40::new("sword1"), 0, 0, 0, 0, 90, 0, 1, true);
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_firetrail"), false, true);
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_speed_line"), false, true);
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_firetrail"), true, true);
@@ -85,7 +83,6 @@ unsafe extern "C" fn effect_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
 unsafe extern "C" fn effect_specialhiinterrupt_roy_acmd(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_firetrail"), false, true);
-        macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_sword_beam_m"), true, true);
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_speed_line"), false, true);
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_fire"), false, true);
         macros::EFFECT_OFF_KIND(agent, Hash40::new("eflame_promrevolt_sword_fire2"), false, true);
