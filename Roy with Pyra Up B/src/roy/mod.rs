@@ -810,93 +810,45 @@ unsafe extern "C" fn eflame_specialhiloop_status_end(fighter: &mut L2CFighterCom
     0.into()
 }
 
-/* ACMD PRevolt
-unsafe extern "C" fn game_specialhi_prevolt_acmd(agent: &mut L2CAgentBase) {
-    frame(agent.lua_state_agent, 1.0);
+
+
+// ACMD Sounds
+unsafe extern "C" fn sound_specialhi_firepillar_roy_acmd(agent: &mut L2CAgentBase) {
+    frame(agent.lua_state_agent, 3.0);
     if macros::is_excute(agent) {
-        macros::ATTACK(agent, 0, 0, Hash40::new("top"), 9.0, 60, 100, 0, 96, 11.0, 0.0, 8.0, 2.0, Some(0.0), Some(8.0), Some(-2.0), 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
-        macros::ATTACK(agent, 1, 0, Hash40::new("top"), 9.0, 60, 100, 0, 96, 11.0, 0.0, 25.0, 0.0, None, None, None, 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
-    }
-    frame(agent.lua_state_agent, 6.0);
-    if macros::is_excute(agent) {
-        macros::ATTACK(agent, 0, 0, Hash40::new("top"), 5.0, 60, 100, 0, 90, 11.0, 0.0, 8.0, 2.0, Some(0.0), Some(8.0), Some(-2.0), 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
-        macros::ATTACK(agent, 1, 0, Hash40::new("top"), 5.0, 60, 100, 0, 90, 11.0, 0.0, 25.0, 0.0, None, None, None, 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
-        macros::ATTACK(agent, 2, 0, Hash40::new("top"), 4.0, 60, 100, 0, 80, 7.0, 0.0, 40.0, 0.0, None, None, None, 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
-    }
-    frame(agent.lua_state_agent, 11.0);
-    if macros::is_excute(agent) {
-        AttackModule::clear_all(agent.module_accessor);
-    }
-    frame(agent.lua_state_agent, 13.0);
-    if macros::is_excute(agent) {
-        notify_event_msc_cmd!(agent, Hash40::new_raw(0x199c462b5d));
+        macros::PLAY_SE(agent, Hash40::new("se_roy_special_h03")); // se_eflame_special_h04
     }
 }
 
-// ACMD PRevolt Effect
-unsafe extern "C" fn effect_specialhi_prevolt_acmd(agent: &mut L2CAgentBase) {
+unsafe extern "C" fn sound_specialhi(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
-        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar_ground"), Hash40::new("top"), 0, 1, 0, 0, 0, 0, 1.7, 0, 0, 0, 0, 0, 0, true);
-        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar"), Hash40::new("top"), 0, 1, 0, 0, 0, 0, 1.8, 0, 0, 0, 0, 0, 0, true);
-        macros::LAST_EFFECT_SET_RATE(agent, 1.4);
-        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar_impact"), Hash40::new("top"), 0, 1, 0, 0, 0, 0, 1.8, 0, 0, 0, 0, 0, 0, true);
-        macros::LAST_EFFECT_SET_RATE(agent, 1.4);
+        macros::PLAY_SE(agent, Hash40::new("se_roy_swing_ll"));
     }
 }
 
-
-
-// ----------
-// Fire Pillar SpecialHi
-// ----------
-
-// STATUS Pre eflamefirepillar_specialhi_status_pre
-unsafe extern "C" fn eflamefirepillar_specialhi_status_pre(weapon: &mut L2CWeaponCommon) -> L2CValue {
-    StatusModule::init_settings(
-        weapon.module_accessor,
-        smash::app::SituationKind(*SITUATION_KIND_AIR),
-        *WEAPON_KINETIC_TYPE_NORMAL,
-        GROUND_CORRECT_KIND_NONE.into(),
-        smash::app::GroundCliffCheckKind(0),
-        false,
-        0,
-        0,
-        0,
-        0,
-    );
-
-    GroundModule::set_test_coll_stop(weapon.module_accessor, false);
-
-    0.into()
+unsafe extern "C" fn sound_specialhistart(agent: &mut L2CAgentBase) {
+    frame(agent.lua_state_agent, 8.0);
+    if macros::is_excute(agent) {
+        macros::PLAY_SE(agent, Hash40::new("se_roy_special_h01")); // se_eflame_special_h01
+    }
 }
 
-// STATUS Main eflamefirepillar_specialhi_status_main
-unsafe extern "C" fn eflamefirepillar_specialhi_status_main(weapon: &mut L2CWeaponCommon) -> L2CValue {
-    MotionModule::change_motion(
-        weapon.module_accessor,
-        Hash40::new("special_hi"),
-        0.0,
-        1.0,
-        false,
-        0.0,
-        false,
-        false,
-    );
-
-    weapon.fastshift(L2CValue::Ptr(eflamefirepillar_specialhi_status_main_loop as *const () as _))
+unsafe extern "C" fn sound_specialairhistart(agent: &mut L2CAgentBase) {
+    frame(agent.lua_state_agent, 8.0);
+    if macros::is_excute(agent) {
+        macros::PLAY_SE(agent, Hash40::new("se_roy_special_h01")); // se_eflame_special_h01
+    }
 }
 
-// STATUS MainLoop eflamefirepillar_specialhi_status_main_loop
-unsafe extern "C" fn eflamefirepillar_specialhi_status_main_loop(weapon: &mut L2CWeaponCommon) -> L2CValue {
-    0.into()
+unsafe extern "C" fn sound_specialairhijump(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::PLAY_SE(agent, Hash40::new("vc_eflame_special_h_rand"));
+    }
+    frame(agent.lua_state_agent, 20.0);
+    if macros::is_excute(agent) {
+        macros::PLAY_SE(agent, Hash40::new("se_roy_special_h02")); // se_eflame_special_h02
+    }
 }
-
-// STATUS End eflamefirepillar_specialhi_status_end
-unsafe extern "C" fn eflamefirepillar_specialhi_status_end(weapon: &mut L2CWeaponCommon) -> L2CValue {
-    0.into()
-}
-*/
-
 
 pub fn install() {
     Agent::new("roy")
