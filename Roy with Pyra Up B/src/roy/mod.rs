@@ -10,7 +10,8 @@ use {
     smashline::{*, Priority::*}
 };
 
-const FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_JUMP_SPEED_Y: i32 = 0xdd9c; // DD9C is unlabeled in dict.txt, test by changing mod.rs of other mod and using raw hash like 0xdd9c instead of name and see if it still works.
+pub const FIGHTER_EFLAME_STATUS_SPECIAL_HI_WORK_FLOAT_JUMP_SPEED_Y: i32 = 0xdd9c; // DD9C is unlabeled in dict.txt, test by changing mod.rs of other mod and using raw hash like 0xdd9c instead of name and see if it still works.
+pub const FIGHTER_ROY_GENERATE_ARTICLE_PREVOLT: i32 = 0x2;
 
 // Game ACMD Scripts
 // ACMD Game Ground Base game_specialhi_roy_acmd
@@ -20,7 +21,7 @@ unsafe extern "C" fn game_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
     }
     frame(agent.lua_state_agent, 1.0);
     if macros::is_excute(agent) {
-        ArticleModule::generate_article(agent.module_accessor, *FIGHTER_EFLAME_GENERATE_ARTICLE_FIREPILLAR, false, -1);
+        ArticleModule::generate_article(agent.module_accessor, FIGHTER_ROY_GENERATE_ARTICLE_PREVOLT, false, -1);
         macros::ATTACK(agent, 0, 0, Hash40::new("top"), 2.0, 55, 100, 0, 60, 4.5, 0.0, 4.0, 2.0, Some(0.0), Some(4.0), Some(8.0), 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_POS, false, 0, -1.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_G, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_normal"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_KICK, *ATTACK_REGION_SWORD);
         macros::ATTACK(agent, 1, 0, Hash40::new("top"), 5.0, 70, 100, 0, 65, 5.0, 0.0, -4.0, 6.0, Some(0.0), Some(-8.0), Some(6.0), 0.5, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, -1.0, 0, false, false, false, false, true, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_cutup"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_CUTUP, *ATTACK_REGION_SWORD);
 		println!("HIT!!!");
