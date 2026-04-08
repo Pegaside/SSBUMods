@@ -812,7 +812,7 @@ unsafe extern "C" fn eflame_specialhiloop_status_end(fighter: &mut L2CFighterCom
 // ----------
 // Fire Pillar SpecialHi
 // ----------
-
+/*
 // STATUS Pre eflamefirepillar_specialhi_status_pre
 unsafe extern "C" fn eflamefirepillar_specialhi_status_pre(weapon: &mut L2CWeaponCommon) -> L2CValue {
     StatusModule::init_settings(
@@ -858,7 +858,7 @@ unsafe extern "C" fn eflamefirepillar_specialhi_status_main_loop(weapon: &mut L2
 unsafe extern "C" fn eflamefirepillar_specialhi_status_end(weapon: &mut L2CWeaponCommon) -> L2CValue {
     0.into()
 }
-
+*/
 
 pub fn install() {
     Agent::new("roy")
@@ -876,17 +876,17 @@ pub fn install() {
         .status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhi_status_pre)
 		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhi_status_main)
 		.status(End, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhi_status_end)
-		.status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhiend_status_pre)
-		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhiend_status_main)
-		.status(End, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhiend_status_end)
-		.status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhijump_status_pre)
-		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhijump_status_main)
-		.status(End, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhijump_status_end)
-		.status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhiloop_status_pre)
-		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhiloop_status_main)
-		.status(End, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflame_specialhiloop_status_end)
-		.status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_pre)
-		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_main)
-		.status(End, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_end)
+		.status(Pre, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_END, eflame_specialhiend_status_pre)
+		.status(Main, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_END, eflame_specialhiend_status_main)
+		.status(End, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_END, eflame_specialhiend_status_end)
+		.status(Pre, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_JUMP, eflame_specialhijump_status_pre)
+		.status(Main, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_JUMP, eflame_specialhijump_status_main)
+		.status(End, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_JUMP, eflame_specialhijump_status_end)
+		.status(Pre, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_pre)
+		.status(Main, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_main)
+		.status(End, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_end)
+		//.status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_pre)
+		//.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_main)
+		//.status(End, *FIGHTER_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_end)
         .install();
 }
