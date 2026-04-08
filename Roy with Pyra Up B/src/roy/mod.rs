@@ -906,9 +906,10 @@ pub fn install() {
 		.status(Pre, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_pre)
 		.status(Main, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_main)
 		.status(End, *FIGHTER_EFLAME_STATUS_KIND_SPECIAL_HI_LOOP, eflame_specialhiloop_status_end)
+		.game_acmd("game_specialhi", game_specialhi_firepillar_acmd, Default)
 		.install();
 	Agent::new("eflame_firepillar")
-		.game_acmd("game_specialhi", game_specialhi_firepillar_acmd, Default)
+
 		.status(Pre, *WEAPON_EFLAME_FIREPILLAR_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_pre)
 		.status(Main, *WEAPON_EFLAME_FIREPILLAR_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_main)
 		.status(End, *WEAPON_EFLAME_FIREPILLAR_STATUS_KIND_SPECIAL_HI, eflamefirepillar_specialhi_status_end)
