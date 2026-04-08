@@ -62,10 +62,10 @@ unsafe extern "C" fn effect_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
     }
 	frame(agent.lua_state_agent, 2.0);
 	if macros::is_excute(agent) {
-        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar_ground"), Hash40::new("top"), 0, 1, 0, 0, 0, 0, 1.7, 0, 0, 0, 0, 0, 0, true);
-        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar"), Hash40::new("top"), 0, 1, 0, 0, 0, 0, 1.8, 0, 0, 0, 0, 0, 0, true);
+        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar_ground"), Hash40::new("top"), 0, 1, 15, 0, 0, 0, 1.7, 0, 0, 0, 0, 0, 0, true);
+        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar"), Hash40::new("top"), 0, 1, 15, 0, 0, 0, 1.8, 0, 0, 0, 0, 0, 0, true);
         macros::LAST_EFFECT_SET_RATE(agent, 1.4);
-        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar_impact"), Hash40::new("top"), 0, 1, 0, 0, 0, 0, 1.8, 0, 0, 0, 0, 0, 0, true);
+        macros::EFFECT(agent, Hash40::new("eflame_promrevolt_firepillar_impact"), Hash40::new("top"), 0, 1, 15, 0, 0, 0, 1.8, 0, 0, 0, 0, 0, 0, true);
         macros::LAST_EFFECT_SET_RATE(agent, 1.4);
 	}
     frame(agent.lua_state_agent, 39.0);
