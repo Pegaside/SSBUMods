@@ -817,6 +817,7 @@ unsafe extern "C" fn sound_specialhi_firepillar_roy_acmd(agent: &mut L2CAgentBas
     frame(agent.lua_state_agent, 3.0);
     if macros::is_excute(agent) {
         macros::PLAY_SE(agent, Hash40::new("se_roy_special_h03")); // se_eflame_special_h04
+		macros::PLAY_SE(agent, Hash40::new("vc_roy_final02"));
     }
 }
 
@@ -842,7 +843,7 @@ unsafe extern "C" fn sound_specialairhistart(agent: &mut L2CAgentBase) {
 
 unsafe extern "C" fn sound_specialairhijump(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
-        macros::PLAY_SE(agent, Hash40::new("vc_eflame_special_h_rand"));
+        macros::PLAY_SE(agent, Hash40::new("vc_roy_appeal02"));
     }
     frame(agent.lua_state_agent, 20.0);
     if macros::is_excute(agent) {
