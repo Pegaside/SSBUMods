@@ -17,5 +17,4 @@ mod roy;
 #[skyline::main(name = "smashline_test")]
 pub fn main() {
     roy::install();
-	smashline::clone_weapon("eflame", *smash::lib::lua_const::WEAPON_KIND_EFLAME_FIREPILLAR, "roy", "prevolt", true);
 }
