@@ -27,8 +27,9 @@ unsafe extern "C" fn game_specialhi_roy_acmd(agent: &mut L2CAgentBase) {
 	}
     frame(agent.lua_state_agent, 2.0);
     if macros::is_excute(agent) {
+		AttackModule::clear_all(agent.module_accessor);
         macros::ATTACK(agent, 0, 0, Hash40::new("top"), 9.0, 60, 100, 0, 96, 11.0, 0.0, 7.0, 17.0, Some(0.0), Some(7.0), Some(13.0), 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
-        macros::ATTACK(agent, 1, 0, Hash40::new("top"), 9.0, 60, 100, 0, 96, 11.0, 0.0, 24.0, 0.0, None, None, None, 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
+        macros::ATTACK(agent, 1, 0, Hash40::new("top"), 9.0, 60, 100, 0, 96, 11.0, 0.0, 24.0, 15.0, None, None, None, 1.0, 1.0, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, 0, 0.0, 0, false, false, false, true, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_FIRE, *ATTACK_REGION_ENERGY);
     }
     frame(agent.lua_state_agent, 7.0);
     if macros::is_excute(agent) {
