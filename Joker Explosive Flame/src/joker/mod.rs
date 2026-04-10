@@ -220,19 +220,12 @@ unsafe extern "C" fn palutena_specials_status_init(fighter: &mut L2CFighterCommo
         *KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN,
     );
 
-    let special_s_speed_y_mul = WorkModule::get_param_float(
-        fighter.module_accessor,
-        hash40("param_special_s"),        // 0xfea97fe73
-        hash40("special_s_speed_y_mul"),  // 0x15931981cc
-    );
+    let special_s_speed_y_mul = 1.0;
     gravity_speed_y *= special_s_speed_y_mul;
 
     if fighter.global_table[0x16].get_i32() == *SITUATION_KIND_AIR {
-        let special_s_speed_y_add = WorkModule::get_param_float(
-            fighter.module_accessor,
-            hash40("param_special_s"),        // 0xfea97fe73
-            hash40("special_s_speed_y_add"),  // 0x15c701d38a
-        );
+        let special_s_speed_y_add = 0.0;
+		
         gravity_speed_y += special_s_speed_y_add;
     }
 
@@ -434,11 +427,7 @@ unsafe fn palutena_specials_substatus(fighter: &mut L2CFighterCommon,is_status_i
     );
 
     if is_status_init {
-        let special_s_speed_x_mul = WorkModule::get_param_float(
-            fighter.module_accessor,
-            hash40("param_special_s"),
-            hash40("special_s_speed_x_mul"),
-        );
+        let special_s_speed_x_mul = 0.8;
         stop_speed_x *= special_s_speed_x_mul;
     }
 
