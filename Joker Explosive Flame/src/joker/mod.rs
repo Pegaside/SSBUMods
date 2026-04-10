@@ -10,6 +10,8 @@ use {
     smashline::{*, Priority::*}
 };
 
+pub const FIGHTER_JACK_GENERATE_ARTICLE_RED: i32 = 0x4;
+
 //--------------------
 // ACMD SCRIPTS
 //--------------------
@@ -725,12 +727,15 @@ unsafe extern "C" fn palutena_explosiveflame_miss_status_end(weapon: &mut L2CWea
 
 
 pub fn install() {
-    Agent::new("mario")
-        .game_acmd("game_ATTACK_NAME_HERE", example_acmd_script, Default) // Game acmd script
-        .on_line(Main, fighter_frame) // Char opff
-        .status(Main, *FIGHTER_MARIO_STATUS_KIND_SPECIAL_LW_CHARGE, example_status_script) // Status script
+    Agent::new("jack")
+        .game_acmd("game_specials", game_specials_palutena_acmd, Default)
+        .effect_acmd("effect_specials", effect_specials_palutena_acmd, Default)
+        .game_acmd("game_specialairs", game_specialairs_palutena_acmd, Default)
+        .effect_acmd("effect_specialairs", effect_specialairs_palutena_acmd, Default)
+
+        .status(Main, *FIGHTER_MARIO_STATUS_KIND_SPECIAL_LW_CHARGE, example_status_script)
         .install();
-    Agent::new("fighter")
+    Agent::new("jack_red")
         .on_line(Main, fighter_frame) // Global opff
         .install();
 }

@@ -17,4 +17,5 @@ mod joker;
 #[skyline::main(name = "smashline_test")]
 pub fn main() {
     joker::install();
+	smashline::clone_weapon("palutena", *WEAPON_KIND_PALUTENA_EXPLOSIVE_FLAME, "jack", "red", true);
 }
