@@ -14,8 +14,8 @@ use {
 // ACMD SCRIPTS
 //--------------------
 
-// ACMD SpecialS Game
-unsafe extern "C" fn game_specials(agent: &mut L2CAgentBase) {
+// ACMD SpecialS Game game_specials_palutena_acmd
+unsafe extern "C" fn game_specials_palutena_acmd(agent: &mut L2CAgentBase) {
     macros::FT_MOTION_RATE(agent, 1.2);
     frame(agent.lua_state_agent, 22.0);
     if macros::is_excute(agent) {
@@ -24,8 +24,8 @@ unsafe extern "C" fn game_specials(agent: &mut L2CAgentBase) {
 }
 
 
-// ACMD SpecialS Effect
-unsafe extern "C" fn effect_specials(agent: &mut L2CAgentBase) {
+// ACMD SpecialS Effect effect_specials_palutena_acmd
+unsafe extern "C" fn effect_specials_palutena_acmd(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
         macros::LANDING_EFFECT(agent, Hash40::new("sys_action_smoke_h"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 0.8, 0, 0, 0, 0, 0, 0, false);
         macros::EFFECT_FOLLOW(agent, Hash40::new("palutena_wand_light_trace"), Hash40::new("stick"), 0, 8.65, 0, 0, 0, 0, 1, true);
@@ -44,12 +44,112 @@ unsafe extern "C" fn effect_specials(agent: &mut L2CAgentBase) {
 }
 
 
-// ACMD SpecialAirS Game
-unsafe extern "C" fn game_specialairs(agent: &mut L2CAgentBase) {
+// ACMD SpecialAirS Game game_specialairs_palutena_acmd
+unsafe extern "C" fn game_specialairs_palutena_acmd(agent: &mut L2CAgentBase) {
     macros::FT_MOTION_RATE(agent, 1.2);
     frame(agent.lua_state_agent, 22.0);
     if macros::is_excute(agent) {
         ArticleModule::generate_article(agent.module_accessor, *FIGHTER_PALUTENA_GENERATE_ARTICLE_EXPLOSIVEFLAME, false, -1);
+    }
+}
+
+
+// ACMD SpecialAirS Effect effect_specialairs_palutena_acmd
+unsafe extern "C" fn effect_specialairs_palutena_acmd(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW(agent, Hash40::new("palutena_wand_light_trace"), Hash40::new("stick"), 0, 8.65, 0, 0, 0, 0, 1, true);
+        EffectModule::enable_sync_init_pos_last(agent.module_accessor);
+        macros::EFFECT_FOLLOW(agent, Hash40::new("palutena_wand_light2"), Hash40::new("stick"), 0, 8.65, 0, 0, 0, 0, 1, true);
+    }
+    frame(agent.lua_state_agent, 17.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW_ALPHA(agent, Hash40::new("palutena_backlight"), Hash40::new("top"), -1, 21, 1, 0, 90, 0, 1, true, 0.7);
+    }
+    frame(agent.lua_state_agent, 40.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("palutena_wand_light_trace"), false, false);
+        macros::EFFECT_OFF_KIND(agent, Hash40::new("palutena_wand_light2"), false, false);
+    }
+}
+
+
+// ACMD ExplosiveFlame Explode Game game_explode_palutena_acmd
+unsafe extern "C" fn game_explode_palutena_acmd(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::ATTACK(agent, 0, 0, Hash40::new("top"), 1.5, 160, 100, 0, 50, 4.8, 0.0, 0.0, 0.0, None, None, None, 1.0, 0.4, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_POS, false, -0.7, 0.0, 5, true, true, false, false, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_M, *COLLISION_SOUND_ATTR_BOMB, *ATTACK_REGION_BOMB);
+        AttackModule::set_no_damage_fly_smoke_all(agent.module_accessor, true, false);
+    }
+    wait(agent.lua_state_agent, 4.0);
+    if macros::is_excute(agent) {
+        AttackModule::set_size(agent.module_accessor, 0, 6.0);
+    }
+    wait(agent.lua_state_agent, 4.0);
+    if macros::is_excute(agent) {
+        AttackModule::set_size(agent.module_accessor, 0, 7.2);
+    }
+    wait(agent.lua_state_agent, 4.0);
+    if macros::is_excute(agent) {
+        AttackModule::set_size(agent.module_accessor, 0, 8.4);
+    }
+    wait(agent.lua_state_agent, 4.0);
+    if macros::is_excute(agent) {
+        AttackModule::set_size(agent.module_accessor, 0, 9.6);
+    }
+    wait(agent.lua_state_agent, 4.0);
+    if macros::is_excute(agent) {
+        AttackModule::set_size(agent.module_accessor, 0, 10.8);
+    }
+    wait(agent.lua_state_agent, 4.0);
+    if macros::is_excute(agent) {
+        AttackModule::set_size(agent.module_accessor, 0, 12.0);
+    }
+    wait(agent.lua_state_agent, 4.0);
+    if macros::is_excute(agent) {
+        AttackModule::clear_all(agent.module_accessor);
+        AREA_WIND_2ND_RAD(0, 1, 0.02, 1000, 1, 0, 0, 29);
+        ControlModule::set_rumble(agent.module_accessor, Hash40::new("rbkind_explosion"), 0, false, *BATTLE_OBJECT_ID_INVALID as u32);
+    }
+    wait(agent.lua_state_agent, 1.0);
+    if macros::is_excute(agent) {
+        macros::ATTACK(agent, 0, 1, Hash40::new("top"), 5.5, 84, 141, 0, 60, 15.5, 0.0, 0.0, 0.0, None, None, None, 1.5, 0.4, *ATTACK_SETOFF_KIND_OFF, *ATTACK_LR_CHECK_F, false, -2.7, 0.0, 0, true, true, false, false, false, *COLLISION_SITUATION_MASK_GA, *COLLISION_CATEGORY_MASK_ALL, *COLLISION_PART_MASK_ALL, false, Hash40::new("collision_attr_fire"), *ATTACK_SOUND_LEVEL_L, *COLLISION_SOUND_ATTR_BOMB, *ATTACK_REGION_BOMB);
+    }
+    wait(agent.lua_state_agent, 1.0);
+    if macros::is_excute(agent) {
+        AttackModule::clear_all(agent.module_accessor);
+    }
+}
+
+
+// ACMD ExplosiveFlame Explode Effect effect_explode_palutena_acmd
+unsafe extern "C" fn effect_explode_palutena_acmd(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::EFFECT(agent, Hash40::new("palutena_bomb"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
+        macros::EFFECT(agent, Hash40::new("palutena_bomb_appear"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
+    }
+    frame(agent.lua_state_agent, 27.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT(agent, Hash40::new("palutena_bomb_finish"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, true);
+    }
+}
+
+
+// ACMD ExplosiveFlame Miss Effect effect_miss_palutena_acmd
+unsafe extern "C" fn effect_miss_palutena_acmd(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW(agent, Hash40::new("sys_damage_fire"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1.3, true);
+    }
+    frame(agent.lua_state_agent, 1.0);
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW(agent, Hash40::new("sys_damage_fire"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1.3, true);
+    }
+    frame(agent.lua_state_agent, 1.0);
+}
+
+
+// ACMD ExplosiveFlame Wait Effect
+unsafe extern "C" fn effect_wait_palutena_acmd(agent: &mut L2CAgentBase) {
+    if macros::is_excute(agent) {
+        macros::EFFECT_FOLLOW(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, true);
     }
 }
 
