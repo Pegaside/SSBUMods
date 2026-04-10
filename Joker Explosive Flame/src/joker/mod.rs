@@ -108,7 +108,7 @@ unsafe extern "C" fn game_explode_palutena_acmd(agent: &mut L2CAgentBase) {
     wait(agent.lua_state_agent, 4.0);
     if macros::is_excute(agent) {
         AttackModule::clear_all(agent.module_accessor);
-        macros::AREA_WIND_2ND_RAD(0, 1, 0.02, 1000, 1, 0, 0, 29); // Had to put macros::
+        macros::AREA_WIND_2ND_RAD(agent, 0, 1, 0.02, 1000, 1, 0, 0, 29); // Had to put macros:: and agent
         ControlModule::set_rumble(agent.module_accessor, Hash40::new("rbkind_explosion"), 0, false, *BATTLE_OBJECT_ID_INVALID as u32);
     }
     wait(agent.lua_state_agent, 1.0);
