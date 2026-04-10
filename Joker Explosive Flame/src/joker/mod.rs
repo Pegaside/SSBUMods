@@ -21,7 +21,7 @@ unsafe extern "C" fn game_specials_palutena_acmd(agent: &mut L2CAgentBase) {
     macros::FT_MOTION_RATE(agent, 1.2);
     frame(agent.lua_state_agent, 22.0);
     if macros::is_excute(agent) {
-        ArticleModule::generate_article(agent.module_accessor, *FIGHTER_PALUTENA_GENERATE_ARTICLE_EXPLOSIVEFLAME, false, -1);
+        ArticleModule::generate_article(agent.module_accessor, FIGHTER_JACK_GENERATE_ARTICLE_RED, false, -1);
     }
 }
 
@@ -51,7 +51,7 @@ unsafe extern "C" fn game_specialairs_palutena_acmd(agent: &mut L2CAgentBase) {
     macros::FT_MOTION_RATE(agent, 1.2);
     frame(agent.lua_state_agent, 22.0);
     if macros::is_excute(agent) {
-        ArticleModule::generate_article(agent.module_accessor, *FIGHTER_PALUTENA_GENERATE_ARTICLE_EXPLOSIVEFLAME, false, -1);
+        ArticleModule::generate_article(agent.module_accessor, FIGHTER_JACK_GENERATE_ARTICLE_RED, false, -1);
     }
 }
 
@@ -148,7 +148,7 @@ unsafe extern "C" fn effect_miss_palutena_acmd(agent: &mut L2CAgentBase) {
 }
 
 
-// ACMD ExplosiveFlame Wait Effect
+// ACMD ExplosiveFlame Wait Effect effect_wait_palutena_acmd
 unsafe extern "C" fn effect_wait_palutena_acmd(agent: &mut L2CAgentBase) {
     if macros::is_excute(agent) {
         macros::EFFECT_FOLLOW(agent, Hash40::new("sys_smash_flash"), Hash40::new("top"), 0, 0, 0, 0, 0, 0, 1, true);
@@ -505,7 +505,7 @@ unsafe fn palutena_specials_substatus(fighter: &mut L2CFighterCommon,is_status_i
     }
 }
 
-
+/*
 //----------
 // Explosive Flame Check
 //----------
@@ -723,7 +723,7 @@ unsafe extern "C" fn palutena_explosiveflame_miss_status_main_loop(weapon: &mut 
 // STATUS End palutena_explosiveflame_miss_status_end
 unsafe extern "C" fn palutena_explosiveflame_miss_status_end(weapon: &mut L2CWeaponCommon) -> L2CValue {
     0.into()
-}
+}*/
 
 
 pub fn install() {
@@ -733,9 +733,16 @@ pub fn install() {
         .game_acmd("game_specialairs", game_specialairs_palutena_acmd, Default)
         .effect_acmd("effect_specialairs", effect_specialairs_palutena_acmd, Default)
 
-        .status(Main, *FIGHTER_MARIO_STATUS_KIND_SPECIAL_LW_CHARGE, example_status_script)
+        .status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_S, palutena_specials_status_pre)
+		.status(Init, *FIGHTER_STATUS_KIND_SPECIAL_S, palutena_specials_status_init)
+		.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_S, palutena_specials_status_main)
+		.status(End, *FIGHTER_STATUS_KIND_SPECIAL_S, palutena_specials_status_end)
+		//.status(Main, *FIGHTER_STATUS_KIND_SPECIAL_S, example_status_script)
         .install();
     Agent::new("jack_red")
-        .on_line(Main, fighter_frame) // Global opff
+        .game_acmd("game_explode", game_explode_palutena_acmd, Default)
+        .effect_acmd("effect_explode", effect_explode_palutena_acmd, Default)
+        .effect_acmd("effect_miss", effect_miss_palutena_acmd, Default)
+        .effect_acmd("effect_wait", effect_wait_palutena_acmd, Default)
         .install();
 }
