@@ -367,6 +367,103 @@ unsafe fn palutena_specials_substatus(fighter: &mut L2CFighterCommon,is_status_i
 }
 
 
+//----------
+// Explosive Flame Check
+//----------
+
+// STATUS Pre palutena_explosiveflame_check_status_pre
+unsafe extern "C" fn palutena_explosiveflame_check_status_pre(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    StatusModule::init_settings(
+        weapon.module_accessor,
+        smash::app::SituationKind(*SITUATION_KIND_AIR),
+        *WEAPON_KINETIC_TYPE_RESET,
+        GROUND_CORRECT_KIND_AIR.into(),
+        smash::app::GroundCliffCheckKind(0),
+        false,
+        0,
+        0,
+        0,
+        0,
+    );
+
+    0.into()
+}
+
+
+// STATUS Main palutena_explosiveflame_check_status_main
+unsafe extern "C" fn palutena_explosiveflame_check_status_main(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    MotionModule::change_motion(
+        weapon.module_accessor,
+        Hash40::new_raw(0x53c8eac13),
+        0.0,
+        1.0,
+        false,
+        0.0,
+        false,
+        false,
+    );
+
+    if GroundModule::is_touch(
+        weapon.module_accessor,
+        (
+            *GROUND_TOUCH_FLAG_LEFT
+            | *GROUND_TOUCH_FLAG_UP
+            | *GROUND_TOUCH_FLAG_RIGHT
+            | *GROUND_TOUCH_FLAG_UP_LEFT
+            | *GROUND_TOUCH_FLAG_UP_RIGHT
+        ) as u32,
+    ) {
+        WorkModule::on_flag(
+            weapon.module_accessor,
+            *WEAPON_PALUTENA_EXPLOSIVEFLAME_INSTANCE_WORK_ID_FLAG_RESERVE_MISS,
+        );
+    }
+
+    if !WorkModule::is_flag(
+        weapon.module_accessor,
+        *WEAPON_PALUTENA_EXPLOSIVEFLAME_INSTANCE_WORK_ID_FLAG_RESERVE_MISS,
+    ) {
+        let weapon_ptr = weapon.global_table[0x4].get_ptr() as *mut Weapon;
+
+        if app::WeaponSpecializer_PalutenaExplosiveflame::is_touch_down(weapon_ptr) {
+            WorkModule::on_flag(
+                weapon.module_accessor,
+                *WEAPON_PALUTENA_EXPLOSIVEFLAME_INSTANCE_WORK_ID_FLAG_RESERVE_MISS,
+            );
+        }
+    }
+
+    weapon.shift(L2CValue::Ptr(palutena_explosiveflame_check_status_main_loop as *const () as _,));
+
+    0.into()
+}
+
+// STATUS End palutena_explosiveflame_check_status_end
+unsafe extern "C" fn palutena_explosiveflame_check_status_end(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    0.into()
+}
+
+
+//----------
+// Explosive Flame Explode
+//----------
+
+// STATUS Pre 
+
+
+
+// STATUS Main
+
+
+
+// STATUS MainLoop
+
+
+
+// STATUS End
+
+
+
 pub fn install() {
     Agent::new("mario")
         .game_acmd("game_ATTACK_NAME_HERE", example_acmd_script, Default) // Game acmd script
