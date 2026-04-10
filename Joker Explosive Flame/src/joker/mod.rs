@@ -267,6 +267,106 @@ unsafe extern "C" fn palutena_specials_status_main_loop(fighter: &mut L2CFighter
     0.into()
 }
 
+
+// STATUS End palutena_specials_status_end
+unsafe extern "C" fn palutena_specials_status_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+    if fighter.global_table[0x16].get_i32() == *SITUATION_KIND_GROUND {
+        WorkModule::off_flag(
+            fighter.module_accessor,
+            *FIGHTER_PALUTENA_INSTANCE_WORK_ID_FLAG_SPECIAL_N_LANDING,
+        );
+    }
+
+    0.into()
+}
+
+// STATUS FixCamera palutena_attackair_status_fix_cam
+unsafe extern "C" fn palutena_attackair_status_fix_cam(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let _ = fighter;
+    0.into()
+}
+
+
+// SUBSTATUS FUN_7100009630 palutena_specials_substatus
+unsafe fn palutena_specials_substatus(fighter: &mut L2CFighterCommon,is_status_init: bool,) {
+    let mut stop_speed_x = KineticModule::get_sum_speed_x(
+        fighter.module_accessor,
+        *KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN,
+    );
+
+    if is_status_init {
+        let special_s_speed_x_mul = WorkModule::get_param_float(
+            fighter.module_accessor,
+            hash40("param_special_s"),        // 0xfea97fe73
+            hash40("special_s_speed_x_mul"),  // 0x15ae79a87c
+        );
+        stop_speed_x *= special_s_speed_x_mul;
+    }
+
+    let mut stop_reset_type = *ENERGY_STOP_RESET_TYPE_GROUND;
+    if fighter.global_table[0x16].get_i32() == *SITUATION_KIND_AIR {
+        stop_reset_type = *ENERGY_STOP_RESET_TYPE_AIR;
+    }
+
+    fighter.clear_lua_stack();
+    lua_args!(
+        fighter,
+        *FIGHTER_KINETIC_ENERGY_ID_STOP,
+        stop_reset_type,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+    );
+    sv_kinetic_energy::reset_energy(fighter.lua_state_agent);
+
+    fighter.clear_lua_stack();
+    lua_args!(
+        fighter,
+        *FIGHTER_KINETIC_ENERGY_ID_STOP,
+        stop_speed_x,
+        0.0
+    );
+    sv_kinetic_energy::set_speed(fighter.lua_state_agent);
+
+    KineticModule::enable_energy(
+        fighter.module_accessor,
+        *FIGHTER_KINETIC_ENERGY_ID_STOP,
+    );
+
+    if !is_status_init {
+        fighter.clear_lua_stack();
+        lua_args!(
+            fighter,
+            *FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
+            *ENERGY_GRAVITY_RESET_TYPE_GRAVITY,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        );
+        sv_kinetic_energy::reset_energy(fighter.lua_state_agent);
+
+        fighter.clear_lua_stack();
+        lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_GRAVITY, 0.0);
+        sv_kinetic_energy::set_speed(fighter.lua_state_agent);
+
+        KineticModule::enable_energy(
+            fighter.module_accessor,
+            *FIGHTER_KINETIC_ENERGY_ID_GRAVITY,
+        );
+
+        if fighter.global_table[0x16].get_i32() == *SITUATION_KIND_GROUND {
+            fighter.clear_lua_stack();
+            lua_args!(fighter, *FIGHTER_KINETIC_ENERGY_ID_GRAVITY, 0.0);
+            sv_kinetic_energy::set_accel(fighter.lua_state_agent);
+        }
+    }
+}
+
+
 pub fn install() {
     Agent::new("mario")
         .game_acmd("game_ATTACK_NAME_HERE", example_acmd_script, Default) // Game acmd script
