@@ -448,21 +448,84 @@ unsafe extern "C" fn palutena_explosiveflame_check_status_end(weapon: &mut L2CWe
 // Explosive Flame Explode
 //----------
 
-// STATUS Pre 
+// STATUS Pre palutena_explosiveflame_explode_status_pre
+unsafe extern "C" fn palutena_explosiveflame_explode_status_pre(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    StatusModule::init_settings(
+        weapon.module_accessor,
+        smash::app::SituationKind(*SITUATION_KIND_AIR),
+        *WEAPON_KINETIC_TYPE_RESET,
+        GROUND_CORRECT_KIND_AIR.into(),
+        smash::app::GroundCliffCheckKind(0),
+        false,
+        0,
+        0,
+        0,
+        0,
+    );
+
+    0.into()
+}
 
 
+// STATUS Main palutena_explosiveflame_explode_status_main
+unsafe extern "C" fn palutena_explosiveflame_explode_status_main(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    MotionModule::change_motion(
+        weapon.module_accessor,
+        Hash40::new_raw(0x754732c8d),
+        0.0,
+        1.0,
+        false,
+        0.0,
+        false,
+        false,
+    );
 
-// STATUS Main
+    if !StopModule::is_stop(weapon.module_accessor) {
+        palutena_explosiveflame_explode_substatus(weapon);
+    }
+
+    weapon.global_table[0x14].assign(&L2CValue::Ptr(palutena_explosiveflame_explode_substatus as *const () as _));
+
+    weapon.fastshift(L2CValue::Ptr(palutena_explosiveflame_explode_status_main_loop as *const () as _))
+}
 
 
-
-// STATUS MainLoop
-
-
-
-// STATUS End
+// STATUS MainLoop palutena_explosiveflame_explode_status_main_loop
+unsafe extern "C" fn palutena_explosiveflame_explode_status_main_loop(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    0.into()
+}
 
 
+// STATUS End palutena_explosiveflame_explode_status_end
+unsafe extern "C" fn palutena_explosiveflame_explode_status_end(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    0.into()
+}
+
+
+// SUBSTATUS FUN_710001a0b0 palutena_explosiveflame_explode_substatus
+unsafe extern "C" fn palutena_explosiveflame_explode_substatus(weapon: &mut L2CWeaponCommon) -> L2CValue {
+    WorkModule::dec_int(
+        weapon.module_accessor,
+        *WEAPON_INSTANCE_WORK_ID_INT_LIFE,
+    );
+
+    let life = WorkModule::get_int(
+        weapon.module_accessor,
+        *WEAPON_INSTANCE_WORK_ID_INT_LIFE,
+    );
+
+    if life <= 0 {
+        weapon.clear_lua_stack();
+        lua_args!(
+            weapon,
+            Hash40::new_raw(0x199c462b5d)
+        );
+        sv_battle_object::notify_event_msc_cmd(weapon.lua_state_agent);
+        weapon.pop_lua_stack(1);
+    }
+
+    0.into()
+}
 
 pub fn install() {
     Agent::new("mario")
