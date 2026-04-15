@@ -10,7 +10,7 @@ use {
     smashline::{*, Priority::*}
 };
 
-pub const FIGHTER_JACK_GENERATE_ARTICLE_RED: i32 = 0x4;
+pub static mut FIGHTER_JACK_GENERATE_ARTICLE_RED: i32 = 0x4;
 
 //--------------------
 // ACMD SCRIPTS
@@ -494,7 +494,7 @@ unsafe fn palutena_specials_substatus(fighter: &mut L2CFighterCommon,is_status_i
     }
 }
 
-/*
+
 //----------
 // Explosive Flame Check
 //----------
@@ -712,7 +712,7 @@ unsafe extern "C" fn palutena_explosiveflame_miss_status_main_loop(weapon: &mut 
 // STATUS End palutena_explosiveflame_miss_status_end
 unsafe extern "C" fn palutena_explosiveflame_miss_status_end(weapon: &mut L2CWeaponCommon) -> L2CValue {
     0.into()
-}*/
+}
 
 
 pub fn install() {
